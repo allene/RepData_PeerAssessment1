@@ -92,13 +92,19 @@ for (i in 1:nrow(pa1)) {
         cleanpa1$steps[i] <- avgDailyAct[(i%%288) + 1]
     }
 }
+
+newPerDayPA1 <- sapply(split(cleanpa1$steps, cleanpa1$date), sum, na.rm = T)
+
+hist(newPerDayPA1)
 ```
 
-newPerDayPA1 <- sapply(split(cleanpa1$steps,cleanpa1$date),sum,na.rm=T)
-hist(newPerDayPA1)
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+
+```r
 
 newPa1mean <- mean(newPerDayPA1)
 newPa1median <- median(newPerDayPA1)
+```
 
 Mean of per day steps : **1.0766 &times; 10<sup>4</sup>** 
 Mediane of daily steps per day : **1.0766 &times; 10<sup>4</sup>.** 
@@ -155,3 +161,4 @@ xyplot(data = CombinedData, steps ~ interval | nature, layout = c(1, 2), type = 
 ```
 
 ![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+
