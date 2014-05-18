@@ -1,17 +1,15 @@
-# Reproducible Research: Peer Assessment 1
-
 Reproducible Research: Peer Assessment 1
 ========================================================
-```{r}
-setwd("Coursera/repdata/")
-```
+
 ## Down dload data one time
+```{r}
+#setwd("Coursera/repdata/")
 
 #download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip","repdata-data-activity.zip","curl")
 
 #unzip data
 #unzip("repdata-data-activity.zip")
-
+```
 ## Loading and preprocessing the data
 1. Load the data (i.e. read.csv())
 
