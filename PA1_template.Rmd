@@ -57,13 +57,14 @@ for(i in 1:nrow(pa1)){
         cleanpa1$steps[i]<- avgDailyAct[(i %% 288)+1]
     }
 }
-```
+
 newPerDayPA1 <- sapply(split(cleanpa1$steps,cleanpa1$date),sum,na.rm=T)
+
 hist(newPerDayPA1)
 
 newPa1mean <- mean(newPerDayPA1)
 newPa1median <- median(newPerDayPA1)
-
+```
 Mean of per day steps : **`r newPa1mean`** 
 Mediane of daily steps per day : **`r newPa1median`.** 
 
@@ -102,3 +103,4 @@ CombinedData <- rbind(weekdaypa12,weekendpa12)
 ```{r fig.width=15}
 library("lattice")
 xyplot(data=CombinedData ,steps~interval|nature,layout=c(1,2),type="l",ylab="Number of steps",lwd=2)
+```
