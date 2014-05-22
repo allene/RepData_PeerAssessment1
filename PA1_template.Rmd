@@ -3,20 +3,29 @@ Reproducible Research: Peer Assessment 1
 
 ## Down dload data one time
 ```{r}
+#set working dir for wingdows laptop
 #setwd("Coursera/repdata/")
+#Set wd for linux PC
+#setwd("/media/ssdp1/github//RepData_PeerAssessment1")
 
 #download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip","repdata-data-activity.zip","curl")
 
 #unzip data
 #unzip("repdata-data-activity.zip")
+#
+#install knitr
+#install.packages("knitr")
+library("knitr")
 ```
 ## Loading and preprocessing the data
+
 1. Load the data (i.e. read.csv())
 
 2. Process/transform the data (if necessary) into a format suitable for your analysis
 ```{r}
 pa1 <-read.csv("./activity.csv",sep=",",head=T,colClasses=c("integer","Date","integer"))
 head(pa1)
+str(pa1)
 ```
 
 ## What is mean total number of steps taken per day?
@@ -27,10 +36,12 @@ head(pa1)
 
 ```{r}
 perDayPA1 <- sapply(split(pa1$steps,pa1$date),sum,na.rm=T)
+head (perDayPA1)
+str(perDayPA1)
+xname <- "Number of steps"
+hist(perDayPA1,breaks = 10, main = paste("Histogram of " , xname),xlab = xname, ylab = "Frequency")
 
-hist(perDayPA1)
-
-pa1mean<-mean(perDayPA1 )
+pa1mean<-format(round(mean(perDayPA1 ), 2), nsmall = 2)
 pa1median<-median(perDayPA1)
 ```
 Mean of per day steps : **`r pa1mean`** 
@@ -60,10 +71,11 @@ for(i in 1:nrow(pa1)){
 
 newPerDayPA1 <- sapply(split(cleanpa1$steps,cleanpa1$date),sum,na.rm=T)
 
-hist(newPerDayPA1)
+#hist(newPerDayPA1)
+hist(newPerDayPA1,breaks = 10, main = paste("Histogram of " , xname),xlab = xname, ylab = "Frequency")
 
-newPa1mean <- mean(newPerDayPA1)
-newPa1median <- median(newPerDayPA1)
+newPa1mean <- format(round(mean(newPerDayPA1), 2), nsmall = 2)
+newPa1median <- format(round(median(newPerDayPA1), 2), nsmall = 2)
 ```
 Mean of per day steps : **`r newPa1mean`** 
 Mediane of daily steps per day : **`r newPa1median`.** 
@@ -94,13 +106,13 @@ weekendpa1<-pa1splits$yes
 avgPerDayIntWeekDays<-sapply(split(weekdaypa1$steps,weekdaypa1$interval),sum,na.rm=T)
 avgPerDayIntWeekEnds<-sapply(split(weekendpa1$steps,weekendpa1$interval),sum,na.rm=T)
 int<- unique(pa1$interval)
-weekdaypa12 <- data.frame(steps=avgPerDayIntWeekDays,interval=int,nature="no")
-weekendpa12 <- data.frame(steps=avgPerDayIntWeekEnds,interval=int,nature="yes")
+weekdaypa12 <- data.frame(steps=avgPerDayIntWeekDays,interval=int,nature="Monday-Friday")
+weekendpa12 <- data.frame(steps=avgPerDayIntWeekEnds,interval=int,nature="Saturday & Sunday")
 CombinedData <- rbind(weekdaypa12,weekendpa12)
 ```
 
     
 ```{r fig.width=15}
 library("lattice")
-xyplot(data=CombinedData ,steps~interval|nature,layout=c(1,2),type="l",ylab="Number of steps",lwd=2)
+xyplot(data=CombinedData ,steps~interval|nature,layout=c(1,2),type="l",ylab="Number of steps",lwd=2, main="Number of steps vs. Interval")
 ```
